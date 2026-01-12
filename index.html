@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawyer Portfolio | Personal Branding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #007BFF;
+            --deep-navy: #001F3F;
+            --soft-white: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.8);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* Navigation Modern */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 10px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        nav button {
+            background: transparent;
+            color: var(--deep-navy);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        nav button.active {
+            background: linear-gradient(135deg, var(--primary-blue), var(--deep-navy));
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Tab Content Logic */
+        section {
+            display: none;
+            padding: 120px 20px 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HOME TAB STYLES */
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+
+        .media-frame {
+            position: relative;
+            background: var(--soft-white);
+            padding: 15px;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .media-frame img {
+            width: 100%;
+            border-radius: 15px;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 4/5;
+        }
+
+        .video-box iframe {
+            width: 100%;
+            height: 250px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .tagline-box {
+            padding: 20px;
+        }
+
+        .tagline-box blockquote {
+            font-size: 2rem;
+            color: var(--deep-navy);
+            border-left: 5px solid var(--primary-blue);
+            padding-left: 20px;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Case Cards */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+        }
+
+        .card h3 { color: var(--primary-blue); margin-bottom: 10px; }
+
+        /* Latest News in Home */
+        .latest-news-section {
+            margin-top: 60px;
+            background: var(--soft-white);
+            padding: 40px;
+            border-radius: 30px;
+        }
+
+        /* ARTICLE TAB STYLES */
+        .article-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .article-card:hover { background: #f0f7ff; }
+
+        /* GALLERY TAB STYLES */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 250px;
+        }
+
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        /* MODAL ARTICLE */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 31, 63, 0.9);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            padding: 40px;
+            border-radius: 30px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        /* Responsivitas */
+        @media (max-width: 768px) {
+            .hero-container { grid-template-columns: 1fr; }
+            nav { bottom: 20px; top: auto; width: 95%; }
+            .tagline-box blockquote { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <button onclick="showTab('home')" id="btn-home" class="active">Home</button>
+        <button onclick="showTab('articles')" id="btn-articles">Articles</button>
+        <button onclick="showTab('gallery')" id="btn-gallery">Gallery</button>
+    </nav>
+
+    <section id="home" class="active">
+        <div class="hero-container">
+            <div class="media-frame">
+                <img src="pict1.jpg" alt="Lawyer Profile">
+                <div class="video-box">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="tagline-box">
+                <blockquote>"Hukum adalah jembatan menuju keadilan, dan integritas adalah fondasinya."</blockquote>
+                <p>Saya adalah seorang pengacara profesional yang berdedikasi untuk memberikan solusi hukum strategis bagi klien korporat maupun perorangan.</p>
+            </div>
+        </div>
+
+        <h2>Keahlian & Kasus</h2>
+        <div class="grid-layout">
+            <div class="card">
+                <h3>Hukum Korporasi</h3>
+                <p>Menangani lebih dari 50+ merger dan akuisisi perusahaan multinasional.</p>
+            </div>
+            <div class="card">
+                <h3>Pidana Khusus</h3>
+                <p>Pendampingan hukum strategis dalam kasus tindak pidana korupsi dan ekonomi.</p>
+            </div>
+            <div class="card">
+                <h3>Hak Kekayaan Intelektual</h3>
+                <p>Perlindungan aset digital dan merek dagang untuk startup teknologi.</p>
+            </div>
+        </div>
+
+        <div class="latest-news-section">
+            <h2>Artikel Terbaru</h2>
+            <div id="latest-news-container" class="grid-layout">
+                </div>
+        </div>
+    </section>
+
+    <section id="articles">
+        <h2 style="margin-bottom: 30px; font-size: 2.5rem;">Arsip Artikel</h2>
+        <div id="full-articles-grid" class="grid-layout">
+            </div>
+    </section>
+
+    <section id="gallery">
+        <h2 style="margin-bottom: 30px; font-size: 2.5rem;">Galeri Aktivitas</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=500" alt="Activity"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&q=80&w=500" alt="Court"></div>
+            <div class="gallery-item">
+                <video controls>
+                    <source src="path-ke-video.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle" style="color: var(--primary-blue); margin-bottom: 20px;"></h2>
+            <div id="modalBody" style="font-size: 1.1rem; color: #555;"></div>
+        </div>
+    </div>
+
+    <script>
+        // DATABASE ARTIKEL
+        // COPY-PASTE blok di bawah untuk menambah artikel baru
+        const articles = [
+            {
+                id: 1,
+                title: "Aspek Hukum AI di Indonesia",
+                summary: "Bagaimana regulasi kita menghadapi kecerdasan buatan?",
+                content: "Isi lengkap artikel tentang AI... (bisa sangat panjang)"
+            },
+            {
+                id: 2,
+                title: "Panduan Kontrak Bisnis",
+                summary: "Poin-poin penting agar kontrak Anda tidak bocor.",
+                content: "Isi lengkap tentang kontrak bisnis..."
+            },
+            {
+                id: 3,
+                title: "Etika Pengacara di Era Digital",
+                summary: "Menjaga rahasia klien di tengah serangan siber.",
+                content: "Isi lengkap tentang etika profesi..."
+            }
+        ];
+
+        // Navigasi Tab
+        function showTab(tabId) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        // Render Artikel
+        function initArticles() {
+            const fullGrid = document.getElementById('full-articles-grid');
+            const latestContainer = document.getElementById('latest-news-container');
+            
+            fullGrid.innerHTML = '';
+            latestContainer.innerHTML = '';
+
+            // Render ke halaman Articles
+            articles.forEach(art => {
+                const card = createCard(art);
+                fullGrid.appendChild(card);
+            });
+
+            // Render 3 terbaru ke Home
+            const latest = [...articles].reverse().slice(0, 3);
+            latest.forEach(art => {
+                const card = createCard(art);
+                latestContainer.appendChild(card);
+            });
+        }
+
+        function createCard(art) {
+            const div = document.createElement('div');
+            div.className = 'article-card';
+            div.innerHTML = `<h3>${art.title}</h3><p>${art.summary}</p>`;
+            div.onclick = () => openModal(art);
+            return div;
+        }
+
+        // Modal Logic
+        function openModal(art) {
+            document.getElementById('modalTitle').innerText = art.title;
+            document.getElementById('modalBody').innerText = art.content;
+            document.getElementById('articleModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('articleModal').style.display = 'none';
+        }
+
+        // Tutup modal jika klik di luar box
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('articleModal')) {
+                closeModal();
+            }
+        }
+
+        // Jalankan saat load
+        initArticles();
+    </script>
+</body>
+</html>
